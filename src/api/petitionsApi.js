@@ -1,6 +1,7 @@
 import { C_APP_API_URL, handleError, handleResponse } from "./apiUtils";
 
-const BASE_URL = C_APP_API_URL + '/petitions';
+// const BASE_URL = C_APP_API_URL + '/petitions';
+const BASE_URL = '/api/petitions';
 
 const headerAttributes = {
     Accept: 'application/json, text/plain',
@@ -14,7 +15,6 @@ export const save = petition => {
         body: JSON.stringify(petition),
     })
         .then(handleResponse)
-        .then(re => console.log(re))
         .catch(handleError);
 };
 
@@ -22,6 +22,7 @@ export const fetchAll = () => {
     return fetch(BASE_URL, {
         headers: { ...headerAttributes },
         method: 'GET',
+        credentials: 'same-origin',
     })
         .then(handleResponse)
         .catch(handleError);
