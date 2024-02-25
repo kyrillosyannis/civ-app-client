@@ -8,9 +8,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import CssBaseline from '@mui/material/CssBaseline';
-import { ThemeProvider } from '@emotion/react';
-import theme from '../../theme';
 import { useDispatch, useSelector } from 'react-redux';
 import PetitionCommentModal from './PetitionCommentModal';
 import { setSelectedPetitionId } from '../../redux/reducers/petitionsReducer';
@@ -45,9 +42,26 @@ function Petitions() {
   };
 
   const onSign = (row) => {
-    console.log(row);
-    sign(row.id);
-    setRefreshToggle(!refreshToggle);
+    if (userIsLoggedIn()) {
+      console.log(row);
+      sign(row.id);
+      setRefreshToggle(!refreshToggle);
+    } else {
+      //show CTA
+    }
+    
+  };
+
+  const userIsLoggedIn = () => {
+    return !(userId === undefined || userId === '');
+  };
+
+  const handleCreateModalClick = () => {
+    if (userIsLoggedIn()) {
+      setToggleCreateModal(true);
+    } else {
+      //show CTA 
+    }
   };
 
   const sampleTable = rows => {
@@ -106,7 +120,7 @@ function Petitions() {
             <button onClick={onSubmit}>Submit</button>
             
           </div> */}
-          <Button onClick={() => setToggleCreateModal(true)}>
+          <Button onClick={handleCreateModalClick}>
             <Typography variant="h6" sx={{ flexGrow: 1, padding: '0.3vw', backgroundColor: '#36454F', color: '#7A9FCE', border: 'solid', borderRadius: '20%' }}>
               Create Yours
             </Typography>

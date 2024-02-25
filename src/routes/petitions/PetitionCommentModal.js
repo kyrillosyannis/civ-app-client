@@ -40,11 +40,17 @@ const PetitionCommentModal = ({open, close}) => {
     const dispatch = useDispatch();
     const comments = useSelector(state => state?.comments?.comments?.content);
     const petitionId = useSelector(state => state?.petitions?.petitionId);
+    const userId = useSelector(state => state?.authentication?.value?.id);
+
     const [inputComment, setInputComment] = useState('');
 
     useEffect(() => {
         dispatch(getCommentsByPetitionId(petitionId));
     }, [petitionId]);
+
+    const userIsLoggedIn = () => {
+        return !(userId === undefined || userId === '');
+    };
 
     const renderComments = () => {
         if (comments != undefined) {
@@ -54,11 +60,15 @@ const PetitionCommentModal = ({open, close}) => {
     };
 
     const onCommentSubmit = () => {
-        dispatch(savePetitionComment({
+        if (userIsLoggedIn()) {
+            dispatch(savePetitionComment({
             content: inputComment,
             petitionId: petitionId
         }));
         setInputComment('');
+        } else {
+            //show CTA
+        }
     };
 
     const renderInput = () => {
