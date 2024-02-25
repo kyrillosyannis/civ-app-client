@@ -17,3 +17,12 @@ export const authenticate = authRequest => {
         .then(handleResponse)
         .catch(handleError);
 };
+
+export const logout = () => {
+    return fetch('/api/logout', {
+        headers: { ...headerAttributes },
+        method: 'POST',
+    })
+        .then(handleResponse)
+        .catch(handleError);
+};

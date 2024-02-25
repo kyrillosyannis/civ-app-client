@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
-import { authenticate } from "../../api/authenticationApi";
-import { authenticateSuccess } from "../reducers/authenticationReducer";
+import { authenticate, logout } from "../../api/authenticationApi";
+import { authenticateSuccess, logoutSuccess } from "../reducers/authenticationReducer";
 
 export function login(authRequest) {
 
@@ -12,10 +12,7 @@ export function login(authRequest) {
                     // dispatch(authenticateFailure());
                     console.log('auth call failed');
                 } else {
-                    setTimeout(() => {
-                        console.log('in action');
-                        dispatch(authenticateSuccess(user));
-                    }, 2000);
+                    dispatch(authenticateSuccess(user));
                 }
             })
             .catch(error => {
@@ -24,3 +21,15 @@ export function login(authRequest) {
             });
     };
 }
+
+export const logoutUser = () => {
+    return async dispatch => {
+        try {
+            const logoutResponse = await logout();
+            dispatch(logoutSuccess());
+        } catch (error) {
+            //dispatch apiCallFailure
+            throw error;
+        }
+    };
+};

@@ -1,5 +1,10 @@
 export const C_APP_API_URL = 'http://localhost:8080';
 
+export const headerAttributes = {
+    Accept: 'application/json, text/plain',
+    'Content-Type': 'application/json;charset=UTF-8',
+};
+
 export const handleResponse = async response => {
     if (response.ok) return response.json();
     if (response.status === 400) {

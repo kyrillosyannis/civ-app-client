@@ -36,3 +36,24 @@ export const sign = petitionId => {
         .then(handleResponse)
         .catch(handleError);
 };
+
+export const fetchCommentsByPetitionId = petitionId => {
+    return fetch(`${BASE_URL}/${petitionId}/comments`, {
+        headers: { ...headerAttributes },
+        method: 'GET',
+        credentials: 'same-origin',
+    })
+        .then(handleResponse)
+        .catch(handleError);
+};
+
+export const saveComment = comment => {
+    return fetch(`${BASE_URL}/${comment.petitionId}/comments`, {
+        headers: { ...headerAttributes },
+        method: 'POST',
+        credentials: 'same-origin',
+        body: JSON.stringify(comment)
+    })
+        .then(handleResponse)
+        .catch(handleError);
+};

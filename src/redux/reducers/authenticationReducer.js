@@ -7,13 +7,15 @@ export const userSlice = createSlice({
     },
     reducers: {
         authenticateSuccess: (state, action) => {
-            console.log('in reducer');
             state.value = action.payload;
+        },
+        logoutSuccess: (state, action) => {
+            state.value = '';
         },
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { authenticateSuccess } = userSlice.actions;
+export const { authenticateSuccess, logoutSuccess } = userSlice.actions;
 
 export default userSlice.reducer;

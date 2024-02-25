@@ -1,17 +1,16 @@
-import { Button, Container, TextField } from '@mui/material';
+import { Button, Container, TextField, Typography } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import { authenticate } from '../../api/authenticationApi';
 import { fetchAll, save, sign } from '../../api/petitionsApi';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Navigate, redirect } from 'react-router-dom/dist';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../../redux/actions/authenticationActions';
+import { createUser } from '../../api/usersApi';
 
-const Login = () => {
+const Register = () => {
 
     // const [user, setUser] = useState('');
     const user = useSelector(state => state?.authentication?.value?.username);
-    console.log(user);
     const dispatch = useDispatch();
     const {
         register,
@@ -20,14 +19,10 @@ const Login = () => {
         control
     } = useForm();
 
-    useEffect(() => {
-        console.log(user);
-    }, []);
-
     const onSubmit = async (data) => {
 
-        dispatch(login(data));
-
+        createUser(data);
+        
         // const authResponse = await authenticate(data);
         // let parsedToken = parseJwt(authResponse.jwt);
         // console.log(parsedToken);
@@ -50,7 +45,7 @@ const Login = () => {
 
     return (
         <>
-            {user !== '' && user !== undefined ? (<Navigate to='/' />) : ""}
+            {user === 'user' ? (<Navigate to='/' />) : ""}
             <Container
                 component="form"
                 onSubmit={handleSubmit(onSubmit)}
@@ -66,6 +61,7 @@ const Login = () => {
                     width: '40vw'
                 }}
             >
+                <Typography sx={{ color: '#7A9FCE', backgroundColor: '#36454F' }} variant="h6">Join MetaPolis</Typography>
                 <Controller
                     name="username"
                     control={control}
@@ -78,7 +74,7 @@ const Login = () => {
                             margin="normal"
                             fullWidth
                             required
-                            sx={{ '& label': { color: '#36454F' }, '& input': { color: 'black' }, backgroundColor: '#818589' }}
+                            sx={{ '& label': { color: '#36454F' }, '& input': { color: 'black' } }}
                         />
                     )}
                 />
@@ -102,7 +98,7 @@ const Login = () => {
                 />
 
                 <Button type="submit" variant="contained" color="primary">
-                    Login
+                    Register
                 </Button>
             </Container>
             {/* <form onSubmit={handleSubmit((data) => console.log(data))} style={{ backgroundColor: '#282c34' }}>
@@ -116,4 +112,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Register;
